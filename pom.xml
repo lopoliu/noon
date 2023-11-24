@@ -12,6 +12,7 @@
         <module>noox-app</module>
         <module>noox-user</module>
         <module>noox-security</module>
+        <module>noox-user/user-mapper</module>
     </modules>
 
     <properties>

@@ -1,6 +1,7 @@
 package com.lopo.security.config;
 
 
+import com.lopo.security.component.AuthenticationExceptionHandler;
 import com.lopo.security.component.LoginFailureHandler;
 import com.lopo.security.component.LoginSuccessHandler;
 import com.lopo.security.component.LogoutSuccessHandler;
@@ -24,7 +25,9 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 public class SecurityConfig{
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, UsernamePasswordLoginFilter usernamePasswordLoginFilter) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http, UsernamePasswordLoginFilter usernamePasswordLoginFilter
+    ) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers("/login").permitAll()  // 仅放行登陆请求、其他请求必须通过认证
                 .anyRequest().authenticated();
@@ -32,6 +35,9 @@ public class SecurityConfig{
         http.formLogin();           // 开启表单登陆
 
         http.csrf().disable();      // 禁用csrf保护
+
+        http.exceptionHandling()
+                        .authenticationEntryPoint(new AuthenticationExceptionHandler());
 
         http.logout()
                 .logoutRequestMatcher(
@@ -59,6 +65,7 @@ public class SecurityConfig{
     @Bean
     public UsernamePasswordLoginFilter usernamePasswordLoginFilter(ProviderManager providerManager){
         UsernamePasswordLoginFilter usernamePasswordLoginFilter = new UsernamePasswordLoginFilter();
+        usernamePasswordLoginFilter.setFilterProcessesUrl("/login");
         usernamePasswordLoginFilter.setAuthenticationManager(providerManager);
         usernamePasswordLoginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler());
         usernamePasswordLoginFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
