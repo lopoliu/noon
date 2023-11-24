@@ -1,79 +1,77 @@
 package com.lopo.security.config;
 
 
-import com.lopo.security.comp.MyAuthenticationEntryPoint;
-import com.lopo.security.comp.MyAuthenticationFailureHandler;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.lopo.security.component.LoginFailureHandler;
+import com.lopo.security.component.LoginSuccessHandler;
+import com.lopo.security.component.LogoutSuccessHandler;
+import com.lopo.security.filter.UsernamePasswordLoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
-
-    private MyAuthenticationFailureHandler myAuthenticationFailureHandler;
-    private MyAuthenticationEntryPoint myAuthenticationEntryPoint;
-
-    @Autowired
-    public void setMyAuthenticationFailureHandler(MyAuthenticationFailureHandler myAuthenticationFailureHandler) {
-        this.myAuthenticationFailureHandler = myAuthenticationFailureHandler;
-    }
-
-    @Autowired
-    public void setMyAuthenticationEntryPoint(MyAuthenticationEntryPoint myAuthenticationEntryPoint) {
-        this.myAuthenticationEntryPoint = myAuthenticationEntryPoint;
-    }
+public class SecurityConfig{
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .mvcMatchers("/user/login").permitAll()
-                        .anyRequest().authenticated()
-                );
-        http.exceptionHandling().authenticationEntryPoint(myAuthenticationEntryPoint);
-        http.httpBasic().authenticationEntryPoint(myAuthenticationEntryPoint);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, UsernamePasswordLoginFilter usernamePasswordLoginFilter) throws Exception {
+        http.authorizeRequests()
+                .mvcMatchers("/login").permitAll()  // 仅放行登陆请求、其他请求必须通过认证
+                .anyRequest().authenticated();
+
+        http.formLogin();           // 开启表单登陆
+
+        http.csrf().disable();      // 禁用csrf保护
+
+        http.logout()
+                .logoutRequestMatcher(
+                        new OrRequestMatcher(
+                                new AntPathRequestMatcher("/logout", "GET"),    // GET请求方式注销
+                                new AntPathRequestMatcher("/logout", "POST")    // POST请求方式注销
+                        )
+                )  // 指定注销的url
+                .logoutSuccessHandler(new LogoutSuccessHandler()) // 注销成功后的处理
+                .invalidateHttpSession(true);    // 使会话失效
+
+        http.addFilterAt(usernamePasswordLoginFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(
-            UserDetailsService userDetailsService,
-            PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder);
-
-        return new ProviderManager(authenticationProvider);
+    public ProviderManager providerManager(PasswordEncoder passwordEncoder, UserDetailsService authenticationService){
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder);
+        provider.setUserDetailsService(authenticationService);
+        return new ProviderManager(provider);
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails userDetails = User.withDefaultPasswordEncoder()
-                .username("user")
-                .password("password")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(userDetails);
+    public UsernamePasswordLoginFilter usernamePasswordLoginFilter(ProviderManager providerManager){
+        UsernamePasswordLoginFilter usernamePasswordLoginFilter = new UsernamePasswordLoginFilter();
+        usernamePasswordLoginFilter.setAuthenticationManager(providerManager);
+        usernamePasswordLoginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler());
+        usernamePasswordLoginFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
+        return usernamePasswordLoginFilter;
     }
 
+
+    /**
+     * 密码加密方式为BCrypt
+     */
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 
 }
