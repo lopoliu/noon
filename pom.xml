@@ -8,6 +8,7 @@
     <artifactId>noox</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
+
     <modules>
         <module>noox-app</module>
         <module>noox-user</module>

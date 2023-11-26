@@ -26,12 +26,12 @@
         <dependency>
             <groupId>com.lopo</groupId>
             <artifactId>user-controller</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.lopo</groupId>
             <artifactId>noox-security</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
