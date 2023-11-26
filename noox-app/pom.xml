@@ -8,6 +8,7 @@
         <artifactId>noox</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <packaging>jar</packaging>
 
     <artifactId>noox-app</artifactId>
 
@@ -24,15 +25,31 @@
         </dependency>
         <dependency>
             <groupId>com.lopo</groupId>
-            <artifactId>user-business</artifactId>
+            <artifactId>user-controller</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.lopo</groupId>
             <artifactId>noox-security</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
     </dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.17</version>
+                <configuration>
+                    <mainClass>com.lopo.NooxApp</mainClass>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

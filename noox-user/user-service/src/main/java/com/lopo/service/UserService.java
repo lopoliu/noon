@@ -5,4 +5,5 @@ import com.lopo.domain.User;
 
 public interface UserService {
     User findUserById(String userId);
+    User findUserByUsername(String username);
 }

@@ -7,34 +7,23 @@
         <groupId>com.lopo</groupId>
         <artifactId>noox-user</artifactId>
         <version>1.0-SNAPSHOT</version>
+<!--        <relativePath>../pom.xml</relativePath>-->
     </parent>
 
-    <artifactId>user-business</artifactId>
+    <artifactId>user-controller</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.lopo</groupId>
-            <artifactId>user-domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.lopo</groupId>
-            <artifactId>user-mapper</artifactId>
+            <artifactId>user-service</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
 
 </project>

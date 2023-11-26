@@ -1,15 +1,13 @@
 package com.lopo.security.config;
 
 
-import com.lopo.security.component.AuthenticationExceptionHandler;
-import com.lopo.security.component.LoginFailureHandler;
-import com.lopo.security.component.LoginSuccessHandler;
-import com.lopo.security.component.LogoutSuccessHandler;
+import com.lopo.security.component.*;
 import com.lopo.security.filter.UsernamePasswordLoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,6 +20,7 @@ import org.springframework.security.web.util.matcher.OrRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig{
 
     @Bean
@@ -37,7 +36,8 @@ public class SecurityConfig{
         http.csrf().disable();      // 禁用csrf保护
 
         http.exceptionHandling()
-                        .authenticationEntryPoint(new AuthenticationExceptionHandler());
+                        .authenticationEntryPoint(new AuthenticationExceptionHandler())
+                .accessDeniedHandler(new AccessBadHandler());
 
         http.logout()
                 .logoutRequestMatcher(
