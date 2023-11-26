@@ -1,4 +1,4 @@
-package com.lopo.domain;
+package com.lopo.domain.po;
 
 public class Permission {
     private Long id;

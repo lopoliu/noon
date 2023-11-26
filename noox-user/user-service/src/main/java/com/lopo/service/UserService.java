@@ -1,6 +1,6 @@
 package com.lopo.service;
 
-import com.lopo.domain.User;
+import com.lopo.domain.po.User;
 
 
 public interface UserService {

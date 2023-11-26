@@ -1,7 +1,7 @@
 package com.lopo.mapper;
 
 
-import com.lopo.domain.Permission;
+import com.lopo.domain.po.Permission;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

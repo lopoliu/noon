@@ -1,4 +1,4 @@
-package com.lopo.domain;
+package com.lopo.domain.po;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

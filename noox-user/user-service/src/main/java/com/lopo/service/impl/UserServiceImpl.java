@@ -1,7 +1,7 @@
 package com.lopo.service.impl;
 
-import com.lopo.domain.Permission;
-import com.lopo.domain.User;
+import com.lopo.domain.po.Permission;
+import com.lopo.domain.po.User;
 import com.lopo.mapper.UserMapper;
 import com.lopo.service.PermissionService;
 import com.lopo.service.UserService;

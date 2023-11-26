@@ -1,6 +1,6 @@
 package com.lopo.service.impl;
 
-import com.lopo.domain.Permission;
+import com.lopo.domain.po.Permission;
 import com.lopo.mapper.PermissionMapper;
 import com.lopo.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;

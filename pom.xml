@@ -13,6 +13,7 @@
         <module>noox-app</module>
         <module>noox-user</module>
         <module>noox-security</module>
+        <module>noox-common</module>
     </modules>
 
     <properties>
@@ -47,20 +48,29 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- mybatis -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
                 <version>${mybatis.version}</version>
             </dependency>
+            <!-- 数据库连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
             </dependency>
+            <!-- json 格式化 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
+            </dependency>
+            <!-- user common -->
+            <dependency>
+                <groupId>com.lopo</groupId>
+                <artifactId>user-common</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

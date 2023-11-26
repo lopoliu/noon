@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.lopo.mapper.PermissionMapper">
-    <select id="selectPermissionByUserId" resultType="com.lopo.domain.Permission">
+    <select id="selectPermissionByUserId" resultType="com.lopo.domain.po.Permission">
         select p1.id, p1.perm_code, p1.perm_name, p1.parent from permission p1 where parent=(
         select p.id
         from user u
