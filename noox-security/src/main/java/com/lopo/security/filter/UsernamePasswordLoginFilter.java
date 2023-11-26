@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class UsernamePasswordLoginFilter extends UsernamePasswordAuthenticationFilter {
@@ -28,8 +29,10 @@ public class UsernamePasswordLoginFilter extends UsernamePasswordAuthenticationF
         // 验证响应类型
         if (request.getContentType().equalsIgnoreCase(MediaType.APPLICATION_JSON_VALUE)){
             try {
-                System.out.println(request.getInputStream());
-                Map<String, String> map = new ObjectMapper().readValue(request.getInputStream(), Map.class);
+                System.out.println(request.getInputStream().toString());
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                Map<String, String> map = objectMapper.readValue(request.getInputStream(), Map.class);
                 String username = map.get("username");
                 String password = map.get("password");
                 UsernamePasswordAuthenticationToken unauthenticated = new  UsernamePasswordAuthenticationToken(username, password);
