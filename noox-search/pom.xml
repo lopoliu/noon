@@ -5,34 +5,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.lopo</groupId>
-        <artifactId>noox-user</artifactId>
+        <artifactId>noox</artifactId>
         <version>1.0-SNAPSHOT</version>
-<!--        <relativePath>../pom.xml</relativePath>-->
     </parent>
 
-    <artifactId>user-controller</artifactId>
+    <artifactId>noox-search</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
-            <groupId>com.lopo</groupId>
-            <artifactId>user-service</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.lopo</groupId>
-            <artifactId>noox-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.lopo</groupId>
-            <artifactId>noox-search</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
         </dependency>
     </dependencies>
 
