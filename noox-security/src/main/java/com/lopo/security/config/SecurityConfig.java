@@ -2,6 +2,7 @@ package com.lopo.security.config;
 
 
 import com.lopo.security.component.*;
+import com.lopo.security.filter.TokenLoginFilter;
 import com.lopo.security.filter.UsernamePasswordLoginFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +26,9 @@ public class SecurityConfig{
 
     @Bean
     public SecurityFilterChain securityFilterChain(
-            HttpSecurity http, UsernamePasswordLoginFilter usernamePasswordLoginFilter
+            HttpSecurity http,
+            UsernamePasswordLoginFilter usernamePasswordLoginFilter,
+            TokenLoginFilter tokenLoginFilter
     ) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers("/login").permitAll()  // 仅放行登陆请求、其他请求必须通过认证
@@ -49,6 +52,7 @@ public class SecurityConfig{
                 .logoutSuccessHandler(new LogoutSuccessHandler()) // 注销成功后的处理
                 .invalidateHttpSession(true);    // 使会话失效
 
+        http.addFilterBefore(tokenLoginFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterAt(usernamePasswordLoginFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -70,6 +74,11 @@ public class SecurityConfig{
         usernamePasswordLoginFilter.setAuthenticationSuccessHandler(new LoginSuccessHandler());
         usernamePasswordLoginFilter.setAuthenticationFailureHandler(new LoginFailureHandler());
         return usernamePasswordLoginFilter;
+    }
+
+    @Bean
+    public TokenLoginFilter tokenLoginFilter(){
+        return new TokenLoginFilter();
     }
 
 

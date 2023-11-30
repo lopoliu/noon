@@ -13,21 +13,19 @@
     <artifactId>noox-app</artifactId>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+        <!-- user-->
         <dependency>
             <groupId>com.lopo</groupId>
             <artifactId>user-controller</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- noox-security权限于认证 -->
         <dependency>
             <groupId>com.lopo</groupId>
             <artifactId>noox-security</artifactId>
@@ -38,12 +36,6 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
         </dependency>
-        <!-- elasticsearch -->
-<!--        <dependency>-->
-<!--            <groupId>com.lopo</groupId>-->
-<!--            <artifactId>noox-search</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
 
     </dependencies>
 

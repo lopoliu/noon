@@ -1,14 +1,15 @@
 package com.lopo.domain.po;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class User implements UserDetails {
+
     private Long id;
     private String username;
     private String password;
@@ -26,6 +27,12 @@ public class User implements UserDetails {
             authoritySet.add(simpleGrantedAuthority);
         }
         return authoritySet;
+    }
+
+
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setAuthority(List<Permission> authority) {
@@ -68,5 +75,13 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", this.id);
+        map.put("username", this.username);
+        return map;
     }
 }
